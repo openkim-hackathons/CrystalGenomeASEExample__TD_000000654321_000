@@ -105,7 +105,9 @@ print("--------------------------------------\n")
 #     pip install kimvv
 #
 # Once your Test Driver is published on openkim.org, it will be incorporated into
-# ``kimvv`` and available to users just as easily!
+# ``kimvv`` and available to users just as easily! kimvv automatically
+# handles dependencies, but since your Test Driver is not incorporated yet,
+# you will have to call ``EquilibriumCrystalStructure`` explicitly.
 #
 # Instead an :class:`ase.Atoms` object, your Test Driver can use a KIM Property
 # Instance containing a symmetry-reduced description of the crystal.
@@ -113,6 +115,10 @@ print("--------------------------------------\n")
 # 3 different properties for each crystal (structure, energy, and density),
 # but all of them contain the required fields to build a crystal, so we can
 # pass any of them to our Test Driver to use as a relaxed structure.
+# In order to avoid conflicts in the "output" directory, interspersing
+# calls to different instances of Test Drivers is not allowed, so we must
+# re-instantiate our Test Driver to avoid conflict with 
+# ``EquilibriumCrystalStructure``. Not doing so will raise an error.
 
 from kimvv import EquilibriumCrystalStructure
 
@@ -120,6 +126,7 @@ ecs = EquilibriumCrystalStructure(kim_model_name)
 print("\nMINIMIZING STRUCTURE\n")
 relaxed_structure = ecs(atoms)[0]
 
+test_driver = TestDriver(kim_model_name)
 print("\nRUNNING TEST DRIVER ON EquilibriumCrystalStructure OUTPUT\n")
 computed_property_instances = test_driver(
     relaxed_structure,
@@ -216,10 +223,12 @@ print(
 )
 
 for i in unique_structure_indices:
-    # Minimize the structure with the EquilibriumCrystalStructure we previously instantiated
+    # Minimize the structure with EquilibriumCrystalStructure
     print("\nMINIMIZING STRUCTURE\n")
+    ecs = EquilibriumCrystalStructure(kim_model_name)
     relaxed_structure = ecs(list_of_queried_structures[i])[0]
     print("\nRUNNING TEST DRIVER ON MINIMIZED QUERIED STRUCTURE\n")
+    test_driver = TestDriver(kim_model_name)
     computed_property_instances = test_driver(
         relaxed_structure,
         max_volume_scale=0.1,
