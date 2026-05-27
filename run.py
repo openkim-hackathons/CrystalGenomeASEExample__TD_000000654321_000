@@ -71,8 +71,9 @@ computed_property_instances = test_driver(
     atoms,
     max_volume_scale=0.1,
     num_steps=1,
-    temperature_K=0,
-    cell_cauchy_stress_eV_angstrom3=[0, 0, 0, 0, 0, 0],
+    temperature_K=0,  # Not used, for demonstration only
+    cell_cauchy_stress_eV_angstrom3=[0, 0, 0, 0, 0, 0],  # Not used, for demonstration only
+    # pressure_eV_angstrom3=0,  # Either stress or pressure can be specified, not both.
 )
 ###############################################################################
 # The results of the calculation is returned in the format defined by the Property Definitions

@@ -66,14 +66,24 @@ class TestDriver(SingleCrystalTestDriver):
             get_stoich_reduced_list_from_prototype(prototype_label)
         )
 
-        # Because temperature and stress are such commonly used parameters, we provide
-        # utility functions to access them. This example Test Driver does not use them,
-        # this is for demonstration. The units requested here are the defaults, they
-        # will be what you get if you omit the ``unit`` argument.
+        # Because temperature and stress/pressure are such commonly used parameters, we
+        # provide utility functions to access them. This example Test Driver does not
+        # use them, this is for demonstration. The units requested here are the
+        # defaults, they will be what you get if you omit the ``unit`` argument.
+        # The base class only provides recordkeeping of these
+        # variables, it is up to your code to actually impose these conditions.
         print(f'Temperature (K): {self._get_temperature(unit="K")}')
         print(
             "Stress (eV/angstrom^3): "
             + str(self._get_cell_cauchy_stress(unit="eV/angstrom^3"))
+        )
+        # Internally, only a stress state is tracked, and ``_get_pressure`` gets
+        # the pressure from the stress state. If `enforce_hydrostatic` is
+        # `True` (default), an error will be raised if the stress state is not
+        # hydrostatic.
+        print(
+            "Pressure (eV/angstrom^3): "
+            + str(self._get_pressure(unit="eV/angstrom^3", enforce_hydrostatic=True))
         )
 
         binding_potential_energy_per_atom = []
