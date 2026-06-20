@@ -57,7 +57,7 @@ jobs:
           if cp -r local_props kimvv/test/; then : ; fi
           if cp -r local-props kimvv/test/; then : ; fi
           cd kimvv
-          sed -i '' "s/DEVEL_TEST_DRIVERS = {}/DEVEL_TEST_DRIVERS = {'td.txz':$CRYSTAL_GENOME_TEST_ARGS}/g" pre_setup.py
+          sed -i' ' "s/DEVEL_TEST_DRIVERS = {}/DEVEL_TEST_DRIVERS = {'td.txz':$CRYSTAL_GENOME_TEST_ARGS}/g;" pre_setup.py
           python pre_setup.py
           # Install kimvv only into a special directory that we make unwriteable to mimic a system install
           # This is to make sure test drivers don't need to write to their own files to run
