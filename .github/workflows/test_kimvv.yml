@@ -53,6 +53,9 @@ jobs:
         run: |
           export PATH=$PATH:$PWD/aflow-4.1.0-Linux/bin        
           mv td.txz kimvv
+          # These might not exist, this is basically saying I don't care about exit status
+          if cp -r local_props kimvv/test/; then : ; fi
+          if cp -r local-props kimvv/test/; then : ; fi
           cd kimvv
           sed -i "s/DEVEL_TEST_DRIVERS = {}/DEVEL_TEST_DRIVERS = {'td.txz':$CRYSTAL_GENOME_TEST_ARGS}/g" pre_setup.py
           python pre_setup.py
