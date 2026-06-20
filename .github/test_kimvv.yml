@@ -52,7 +52,7 @@ jobs:
         shell: bash -el {0}
         run: |
           export PATH=$PATH:$PWD/aflow-4.1.0-Linux/bin        
-          mv test.txz kimvv
+          mv td.txz kimvv
           cd kimvv
           sed -i "s/DEVEL_TEST_DRIVERS = {}/DEVEL_TEST_DRIVERS = {'td.txz':$CRYSTAL_GENOME_TEST_ARGS}/g" pre_setup.py
           python pre_setup.py
