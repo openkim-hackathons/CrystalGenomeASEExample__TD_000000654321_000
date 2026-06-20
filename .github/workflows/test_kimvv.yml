@@ -65,7 +65,7 @@ jobs:
           # Now install any dependencies normally. If we install without --no-deps
           # above, it would install ALL dependencies, including reinstalling
           # stuff that already exists in the conda env
-          echo "PYTHONPATH=$PYTHONPATH:$PWD/local-python" >> "$GITHUB_ENV"
+          export PYTHONPATH=$PYTHONPATH:$PWD/local-python
           python -c "from importlib.metadata import requires; print(' '.join(requires('kimvv')))" | xargs python -m pip install        
           cd test
           pytest
